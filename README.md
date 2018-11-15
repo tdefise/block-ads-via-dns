@@ -1,19 +1,11 @@
 # Block ads and malware via local DNS server
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0016cad2e05d458ba0432653fcafbf18)](https://app.codacy.com/app/tdefise/block-ads-via-dns?utm_source=github.com&utm_medium=referral&utm_content=tdefise/block-ads-via-dns&utm_campaign=Badge_Grade_Dashboard)
-
-## About this fork
-This fork as being created in order to add the bash script to my DNS docker running on Debian.
-Here are the following change to the initial forked:
-  - I use StevenBlack list of "adware + malware + fakenews + gambling" <https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts>
-  - As it's runing inside a contaiser which use System V, I use "service bind9 start"
-
 ## Installation
-### Debian, Raspbian & Ubuntu
+## Debian, Raspbian & Ubuntu
   - Install DNS Server: `sudo apt install bind9`
   - Go to the bind directory: `cd /etc/bind/`
   - Add this to /etc/bind/named.conf: `include "/etc/bind/named.conf.blocked";`
-  - Create "/etc/bind/db.blocked" and add this (taken from [here](http://www.deer-run.com/~hal/sysadmin/dns-advert.html)):
+  - Create db.blocked and add this (taken from [here](http://www.deer-run.com/~hal/sysadmin/dns-advert.html)):
 ````
 $TTL 24h
 
@@ -24,7 +16,7 @@ $TTL 24h
 @       IN      A    0.0.0.0
 *       IN      A    0.0.0.0
 ````
-  - Your /etc/bind/named.conf.options should look like this:
+- Your /etc/bind/named.conf.options should look like this:
 ````
 options {
     directory "/var/cache/bind";
@@ -62,11 +54,11 @@ options {
   - Make it executable `chmod +x generate-zonefile.sh`
   - Run generate-zonefile.sh `./generate-zonefile.sh`
 
-### Router / DHCP Server
+## Router / DHCP Server
   - Give your Debian server a static IP
   - Change DNS Server in the DHCP settings to the IP of your Debian Server. If you are asked for a second DNS server enter the same IP twice.
 
-### Optional
+## Optional
   - Add local blacklist and whitelist
   - Create cronjob
   - Change the URL to StevenBlack GitHub Hosts in `generate-zonefile.sh`
