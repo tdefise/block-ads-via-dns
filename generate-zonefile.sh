@@ -23,7 +23,7 @@ wget -q -O StevenBlack-hosts https://raw.githubusercontent.com/StevenBlack/hosts
 grep '^0.0.0.0' StevenBlack-hosts | grep -v -e '127.0.0.1|255.255.255.255|::1' | cut -d " " -f 2 >> $all_domains
 
 # Filter out comments and empty lines
-egrep -v -e '^$|#' $all_domains | sort | uniq  > $all_domains_uniq
+grep -v -e '^$|#' $all_domains | sort | uniq  > $all_domains_uniq
 
 # Add zone information
 sed -r 's/(.*)/zone "\1" {type master; file "\/etc\/bind\/db.blocked";};/' $all_domains_uniq > $zonefile
